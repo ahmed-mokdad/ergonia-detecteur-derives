@@ -1,5 +1,30 @@
 # Journal du moteur (hackathon Energ-IACK 2026)
 
+## Version 1.0.1 — documentation et facteur CO₂, aucun seuil modifié (vendredi 13.11.2026, soir)
+
+Le moteur reste celui de la version 1.0.0 : aucune valeur de `config/seuils.yaml` n'a changé, les chiffres de
+détection (9 dérives sur 11, 7 fausses alertes sur 18) sont inchangés.
+
+- **Facteur CO₂ de l'électricité en cycle de vie : 94 → 125 g CO₂-éq/kWh.** Source primaire lue : KBOB/ecobau 2022
+  v9.0, ligne 45.020 « CH-Verbrauchermix ». 94 g/kWh n'a été retrouvé ni dans KBOB ni dans les documents du
+  hackathon. Seul `constate.kg_co2_cycle_de_vie` change (×1,33) ; le CO₂ direct et les priorités ne bougent pas.
+- **Prix de référence sourcés** ajoutés dans `config/tarifs.yaml` (bloc `prix_references`) et `DATA_SOURCES.md`,
+  **non utilisés** par le calcul : la règle « prix du jeu seulement » reste celle de l'équipe. Années signalées
+  (injection : grille 2026 ; eau : non datée ; gaz : tarif au 1.10.2025).
+- `docs/RECONCILIATION.md` : réconciliation série par série avec le projet deriv.io (S01, injection de S26, COP,
+  CO₂), rejeu de deriv.io en temps réel, dérives déjà dans la référence, plafond d'injection de S32, causes et
+  indices contraires, fourchettes en CHF.
+- `METHODS.md` : injection de S26 lue comme défaut de comptage ; début de S22 au printemps 2023 ; définition du COP ;
+  cause de S30 d'après le profil de nuit ; délai médian sans délais négatifs (11 jours).
+
+**Candidates de version 1.1, non activées** (conçues en sachant quelles dérives étaient manquées : biais à dire) :
+- R1, clôture mensuelle relative aux pairs (gaz, CAD, chaleur PAC ; attendu sans correction des pairs ; écart au
+  mois moins médiane des pairs ≥ 10 % deux mois de suite) : retrouve S26 gaz le 30.11.2025 ; 2 fausses alertes
+  ajoutées (S06 CAD et S32 gaz, en été).
+- R3, saison ancrée sur son premier mois (régime saisonnier déclaré, S31) : retrouve S31 le 30.11.2025 ; 1 fausse
+  alerte sur les trois saisons passées rejouées (décembre 2023).
+- R2, rampe hebdomadaire : ne retrouve pas S31 et ajoute 9 fausses alertes ; rejetée.
+
 ## Version 1.0.0 — moteur figé (vendredi 13.11.2026)
 
 Décision de l'équipe : **plus aucun réglage de seuil guidé par l'évaluation.** Toute modification ultérieure des valeurs ci-dessous serait une version 1.1 et devrait être justifiée sans regarder `outputs/evaluation.md`.

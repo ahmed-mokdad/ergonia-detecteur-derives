@@ -29,6 +29,18 @@ Licence : [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.fr). Rive
 
 Règle : seuls les prix donnés par le jeu sont utilisés. Pour le gaz, la chaleur, l'eau et le solaire, l'app affiche « non chiffré » en CHF ; les kWh, les m³ et le CO₂ restent calculés. Une commune renseigne son prix et sa source dans `config/tarifs.yaml` (valeur `null` = non chiffré) et les CHF apparaissent sans autre changement.
 
+### Prix de référence sourcés (non utilisés par le calcul)
+
+Lus le 13.11.2026 dans les documents primaires ; ils figurent dans `config/tarifs.yaml`, bloc `prix_references`, pour
+qu'une commune puisse les reprendre. Rive-Claire étant fictive, ce sont des ordres de grandeur genevois réels.
+
+| Vecteur | Fourchette | Source | Année |
+|---|---|---|---|
+| Gaz | 9,61 à 10,31 ct/kWh PCS TTC (énergie + taxe CO₂ 2,158 ct + TVA 8,1 %, hors Vitale Vert) | SIG, Tarif gaz standard | **au 1.10.2025** ; janvier à septembre 2025 non lu |
+| Chaleur à distance | 8,19 à 11,61 ct/kWh TTC (GeniTerre Transition à Vertua Plus ; Vertua 9,77) | SIG, tarifs réseaux thermiques structurants 2025 | 2025 |
+| Eau | 1,50 à 2,80 CHF/m³, hors épuration | ge.ch, coût de l'eau potable | **non daté** |
+| Injection PV | 4,40 (énergie seule) à 7,20 ct/kWh HT (avec garantie d'origine), ≥ 100 kW avec consommation propre | SIG, C 2.8 rétributions PV | **2026** ; grille 2025 non trouvée |
+
 ## Facteurs
 
 | Facteur | Valeur | Source |
@@ -37,6 +49,6 @@ Règle : seuls les prix donnés par le jeu sont utilisés. Pour le gaz, la chale
 | CO₂ direct, gaz | 2,086 kg/m³ | feuille Ref_CO2, convention du jeu |
 | CO₂ direct, mazout | 2,65 kg/l | feuille Ref_CO2 (non utilisé : aucune alerte mazout) |
 | CO₂ direct, électricité et chaleur à distance | 0 | convention du jeu |
-| CO₂ cycle de vie, électricité | 94 g/kWh | valeur citée dans le cahier des charges (mix consommateurs suisse), calculée à part dans `constate.kg_co2_cycle_de_vie`, jamais additionnée au direct |
+| CO₂ cycle de vie, électricité | 125 g CO₂-éq/kWh | KBOB/ecobau 2022 v9.0, feuille Énergie, ligne 45.020 « CH-Verbrauchermix / Mix consommateur CH » (même valeur citée par le canton de Vaud depuis la v6.2) ; calculée à part dans `constate.kg_co2_cycle_de_vie`, jamais additionnée au direct. L'ancienne valeur (94 g/kWh, « cahier des charges ») n'a été retrouvée ni dans KBOB ni dans les documents du hackathon. Facteur moyen national, non daté 2025 |
 | Degrés-jours | 20 − T si T < 12 °C, sinon 0 | convention SIA 381/3 du Dictionnaire, recalculée au jour depuis la température du calendrier |
 | Chauffage à distance | énergie ≈ 1,163 × débit × (aller − retour) | Lisez-moi fluides |
