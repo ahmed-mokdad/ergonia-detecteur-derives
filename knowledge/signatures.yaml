@@ -1,0 +1,213 @@
+# Base de connaissances déterministe : signature observable -> causes probables -> vérifications -> actions.
+# Chaque cause porte une plausibilité de départ et des indices « pour » / « contre » : des conditions nommées,
+# évaluées par src/causes/moteur.py sur les indicateurs calculés. Aucune cause n'est une certitude :
+# toutes sont des hypothèses à vérifier sur place. Aucun gain chiffré n'est écrit ici : le gain affiché
+# est le rythme constaté par le moteur (plafond de ce que la correction peut rendre).
+
+talon_permanent:
+  titre: "Hausse à toute heure, y compris la nuit"
+  causes:
+    - cause: "Ventilation, pompe ou autre équipement technique passé en marche permanente (mode manuel, dérogation oubliée)"
+      base: 0.45
+      pour: {nuit_en_hausse: 0.25, en_cours: 0.05, pas_les_jours_fermes_seulement: 0.05}
+      contre: {saison_de_chauffe: 0.05}
+      verifications: ["Relever à la GTB ou au tableau les équipements en mode manuel ou forcé", "Comparer la puissance de nuit au tableau divisionnaire, départ par départ", "Chercher dans le journal d'exploitation une intervention proche de la date de début"]
+      actions: ["Remettre l'équipement en mode automatique", "Consigner la dérogation avec une date de fin"]
+    - cause: "Horloge ou programmation horaire déréglée (coupure de courant, changement d'heure)"
+      base: 0.30
+      pour: {debut_apres_changement_heure: 0.30, nuit_en_hausse: 0.10}
+      contre: {loin_d_un_changement_heure: 0.10}
+      verifications: ["Vérifier l'heure et le programme des horloges et régulateurs", "Vérifier la pile de sauvegarde des programmateurs"]
+      actions: ["Remettre à l'heure et reprogrammer les plages", "Remplacer la pile ou le programmateur défaillant"]
+    - cause: "Nouvel équipement raccordé ou appoint électrique enclenché en continu"
+      base: 0.25
+      pour: {saison_de_chauffe: 0.15, nuit_en_hausse: 0.05}
+      contre: {}
+      verifications: ["Demander si un équipement a été ajouté (serveur, déshumidificateur, chauffage d'appoint, borne)", "Mesurer la consommation de l'appoint ou du traçage électrique"]
+      actions: ["Mettre l'équipement sur horloge ou le déplacer sur un départ sous-compté", "Régler ou couper l'appoint"]
+
+hors_occupation:
+  titre: "Consommation les jours fermés (week-ends, fériés, vacances)"
+  causes:
+    - cause: "Installations laissées en régime d'occupation pendant une fermeture (programme vacances non activé)"
+      base: 0.50
+      pour: {surtout_jours_fermes: 0.20, pendant_vacances: 0.20, resorbee: 0.05}
+      contre: {}
+      verifications: ["Vérifier que le programme vacances de la régulation était actif", "Vérifier ventilation, éclairage et production d'eau chaude pendant la fermeture"]
+      actions: ["Programmer le calendrier de fermeture dans la régulation", "Désigner qui bascule le bâtiment en mode fermé"]
+    - cause: "Travaux, nettoyage ou occupation exceptionnelle non déclarée"
+      base: 0.30
+      pour: {pendant_vacances: 0.15, autre_fluide_meme_periode: 0.15, resorbee: 0.10}
+      contre: {en_cours: 0.10}
+      verifications: ["Demander au concierge et au service des bâtiments ce qui s'est passé pendant la période", "Rapprocher avec le planning des travaux et des locations"]
+      actions: ["Déclarer la période dans le calendrier du site pour qu'elle ne soit plus jugée comme une dérive", "Refacturer si l'usage est tiers"]
+    - cause: "Équipement oublié en marche (éclairage, cuisine, traçage)"
+      base: 0.20
+      pour: {surtout_jours_fermes: 0.10}
+      contre: {autre_fluide_meme_periode: 0.05}
+      verifications: ["Faire une ronde bâtiment fermé", "Relever la puissance de nuit au compteur"]
+      actions: ["Couper l'équipement, poser une horloge ou une détection de présence"]
+
+hausse_en_occupation:
+  titre: "Hausse pendant les heures d'occupation"
+  causes:
+    - cause: "Plage de fonctionnement élargie : démarrage plus tôt ou arrêt plus tard que les horaires déclarés"
+      base: 0.40
+      pour: {jour_en_hausse: 0.15, debut_apres_changement_heure: 0.15}
+      contre: {nuit_en_hausse: 0.10}
+      verifications: ["Comparer les heures réelles de démarrage et d'arrêt aux horaires déclarés", "Vérifier les plages horaires de la régulation"]
+      actions: ["Resserrer les plages horaires sur l'occupation réelle"]
+    - cause: "Changement d'usage ou d'occupation non déclaré"
+      base: 0.30
+      pour: {pendant_vacances: 0.20, autre_fluide_meme_periode: 0.15}
+      contre: {}
+      verifications: ["Demander à l'exploitant si l'usage a changé (nouvelle activité, effectif, location)"]
+      actions: ["Mettre à jour les horaires déclarés du site : ce n'est alors plus une dérive"]
+    - cause: "Équipement en surconsommation ou appoint électrique (chauffage d'appoint, production de froid)"
+      base: 0.30
+      pour: {saison_de_chauffe: 0.20, jour_en_hausse: 0.05}
+      contre: {}
+      verifications: ["Chercher des chauffages d'appoint", "Contrôler la consigne et l'état des gros consommateurs"]
+      actions: ["Retirer les appoints et traiter la cause d'inconfort", "Remettre les consignes d'origine"]
+
+pente_chauffage:
+  titre: "Chauffage en hausse à météo égale"
+  causes:
+    - cause: "Consigne d'ambiance ou courbe de chauffe relevée"
+      base: 0.40
+      pour: {surplus_surtout_jours_froids: 0.20, saison_de_chauffe: 0.10}
+      contre: {}
+      verifications: ["Relever la consigne et la courbe de chauffe, les comparer au réglage de référence", "Mesurer la température dans deux ou trois locaux"]
+      actions: ["Revenir à la courbe de référence", "Verrouiller l'accès aux consignes"]
+    - cause: "Réduit de nuit ou de week-end supprimé"
+      base: 0.30
+      pour: {saison_de_chauffe: 0.10, en_cours: 0.05}
+      contre: {}
+      verifications: ["Vérifier le programme horaire du chauffage", "Regarder si la consommation baisse encore la nuit et le week-end"]
+      actions: ["Rétablir les réduits"]
+    - cause: "Sonde extérieure défaillante ou mal placée, vanne de régulation bloquée"
+      base: 0.30
+      pour: {retour_chaud_meme_site: 0.25}
+      contre: {}
+      verifications: ["Comparer la valeur de la sonde extérieure à la température réelle", "Contrôler la course de la vanne de régulation"]
+      actions: ["Remplacer ou déplacer la sonde", "Réparer la vanne ou son servomoteur"]
+
+base_hors_chauffe:
+  titre: "Hausse aussi par temps doux (charge de base)"
+  causes:
+    - cause: "Chauffage non coupé ou relancé trop tôt en mi-saison"
+      base: 0.45
+      pour: {surplus_aussi_jours_doux: 0.20, saison_de_chauffe: 0.10}
+      contre: {}
+      verifications: ["Vérifier la température de non-chauffage et la date de mise en route", "Regarder si les circuits sont chauds par temps doux"]
+      actions: ["Régler la limite de chauffe", "Repousser la mise en route ou la piloter sur la température extérieure"]
+    - cause: "Eau chaude sanitaire en surchauffe ou bouclage permanent"
+      base: 0.30
+      pour: {surplus_aussi_jours_doux: 0.15}
+      contre: {surplus_surtout_jours_froids: 0.10}
+      verifications: ["Relever la consigne d'eau chaude et les horaires de la pompe de bouclage", "Vérifier le programme anti-légionelles"]
+      actions: ["Ramener la consigne à la valeur de référence", "Mettre le bouclage sur horloge"]
+    - cause: "Ventilation ou process chauffés en continu (salle, vestiaires, bassin)"
+      base: 0.25
+      pour: {en_cours: 0.05}
+      contre: {}
+      verifications: ["Vérifier les batteries chaudes des centrales d'air et leurs horaires"]
+      actions: ["Caler les horaires de ventilation sur l'occupation"]
+
+ecoulement_permanent:
+  titre: "Écoulement d'eau permanent"
+  causes:
+    - cause: "Fuite sur le réseau intérieur ou enterré"
+      base: 0.35
+      pour: {en_cours: 0.25, pas_d_autre_fluide: 0.05}
+      contre: {resorbee: 0.20}
+      verifications: ["Fermer les départs un à un et lire le compteur bâtiment fermé", "Inspecter les regards et les vides sanitaires"]
+      actions: ["Réparer la fuite", "Poser un comptage divisionnaire ou une alarme de débit de nuit"]
+    - cause: "Chasse d'eau, robinet ou urinoir qui coule"
+      base: 0.30
+      pour: {resorbee: 0.10}
+      contre: {}
+      verifications: ["Ronde des sanitaires", "Test colorant sur les chasses"]
+      actions: ["Remplacer le mécanisme"]
+    - cause: "Arrosage ou remplissage programmé (terrain, bassin), ou travaux pendant la fermeture"
+      base: 0.30
+      pour: {pendant_vacances: 0.20, resorbee: 0.15, autre_fluide_meme_periode: 0.15}
+      contre: {en_cours: 0.10}
+      verifications: ["Vérifier le programmateur d'arrosage et les vannes de remplissage", "Demander si des travaux ou un nettoyage ont eu lieu"]
+      actions: ["Corriger le programme", "Déclarer la période si l'usage était voulu"]
+
+surconsommation_en_occupation:
+  titre: "Surconsommation d'eau pendant l'occupation"
+  causes:
+    - cause: "Changement d'usage ou d'effectif"
+      base: 0.40
+      pour: {autre_fluide_meme_periode: 0.15}
+      contre: {}
+      verifications: ["Demander à l'exploitant si la fréquentation a changé"]
+      actions: ["Mettre à jour la référence du site"]
+    - cause: "Équipement sanitaire déréglé (temporisation, pression)"
+      base: 0.35
+      pour: {en_cours: 0.10}
+      contre: {}
+      verifications: ["Contrôler les temporisations des robinets et des douches", "Mesurer la pression"]
+      actions: ["Régler les temporisations", "Poser un réducteur de pression"]
+
+chute_production_pv:
+  titre: "Production solaire en chute à rayonnement égal"
+  causes:
+    - cause: "Onduleur ou chaîne (string) hors service"
+      base: 0.45
+      pour: {perte_partielle_stable: 0.20, resorbee: 0.10}
+      contre: {}
+      verifications: ["Lire les défauts sur le portail de l'onduleur", "Comparer la production chaîne par chaîne"]
+      actions: ["Faire intervenir l'installateur", "Activer l'alarme de production du portail"]
+    - cause: "Salissure, ombrage nouveau ou neige"
+      base: 0.25
+      pour: {}
+      contre: {resorbee: 0.05, perte_forte: 0.10}
+      verifications: ["Inspecter la toiture", "Chercher un obstacle nouveau (chantier, végétation)"]
+      actions: ["Nettoyer", "Supprimer l'ombrage"]
+    - cause: "Limitation de puissance ou disjoncteur partiellement déclenché"
+      base: 0.30
+      pour: {perte_forte: 0.10}
+      contre: {}
+      verifications: ["Contrôler les protections côté courant alternatif", "Vérifier le réglage de limitation d'injection"]
+      actions: ["Réenclencher et rechercher la cause du déclenchement"]
+
+injection_en_baisse:
+  titre: "Injection solaire en chute alors que la production est normale"
+  causes:
+    - cause: "Défaut du registre d'injection du compteur ou de sa télérelève (énergie injectée mais non comptée)"
+      base: 0.50
+      pour: {injection_nulle: 0.25, resorbee: 0.10}
+      contre: {}
+      verifications: ["Demander au distributeur les index du registre 2.8.0 sur la période", "Comparer avec la production de l'onduleur moins la consommation"]
+      actions: ["Faire corriger les index et la rétribution de l'injection par le distributeur"]
+    - cause: "Charge pilotée sur le surplus solaire restée en marche forcée (eau chaude, pompes)"
+      base: 0.30
+      pour: {}
+      contre: {injection_nulle: 0.15}
+      verifications: ["Vérifier le pilotage du surplus solaire et les consignes d'eau chaude"]
+      actions: ["Remettre le pilotage en automatique"]
+
+retour_chaud:
+  titre: "Chauffage à distance : retour chaud, ΔT écrasé"
+  causes:
+    - cause: "Vanne de régulation bloquée ouverte ou by-pass ouvert"
+      base: 0.45
+      pour: {dt_ecrase: 0.20, debit_en_hausse: 0.20}
+      contre: {}
+      verifications: ["Contrôler la course de la vanne primaire et de son servomoteur", "Vérifier que les by-pass sont fermés"]
+      actions: ["Réparer ou remplacer la vanne ou le servomoteur", "Fermer le by-pass"]
+    - cause: "Équilibrage hydraulique ou consigne du secondaire déréglés"
+      base: 0.35
+      pour: {dt_ecrase: 0.10, saison_de_chauffe: 0.10}
+      contre: {}
+      verifications: ["Relever les températures départ et retour du secondaire", "Vérifier les vitesses des pompes et les vannes d'équilibrage"]
+      actions: ["Rééquilibrer le réseau secondaire", "Abaisser la consigne de départ ou la vitesse des pompes"]
+    - cause: "Échangeur encrassé"
+      base: 0.20
+      pour: {}
+      contre: {debit_en_hausse: 0.05}
+      verifications: ["Mesurer le pincement de l'échangeur"]
+      actions: ["Nettoyer ou détartrer l'échangeur"]

@@ -1,0 +1,10 @@
+# Périodes déclarées par site : ruptures CONNUES de la référence, jamais des dérives.
+# Source : colonne « horaires » de la feuille Compteurs et Lisez-moi des lots (aucune date inventée).
+# Pendant une période déclarée sans référence apprise, les jours ne sont pas jugés.
+S30:
+  - {debut: "2025-08-11", fin: "2025-08-24", motif: "fermeture technique de la piscine (vidange puis remplissage)"}
+S13:
+  - {debut: "2025-12-24", fin: "2025-12-31", motif: "crèche fermée entre Noël et Nouvel An"}
+# La crèche S13 ferme aussi « trois semaines en été » : les dates ne sont pas publiées. Le moteur les
+# reconnaît comme une baisse persistante, les écarte de la référence et le signale comme activité réduite.
+# La saison de glace de la patinoire S31 (septembre à mars) est portée par le niveau historique du même mois.

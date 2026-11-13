@@ -1,0 +1,9 @@
+# Dépendances directes, versions figées. Licences : voir THIRD_PARTY_LICENSES.md (toutes compatibles MIT).
+pandas==3.1.1
+numpy==2.4.6
+openpyxl==3.1.5
+PyYAML==6.0.3
+requests==2.34.2
+plotly==7.1.0
+streamlit==1.67.0
+pytest==9.2.0

@@ -1,0 +1,44 @@
+# Seuils du moteur. Fixés a priori (calibration + banc synthétique), jamais réglés sur les dérives cachées.
+# Tout changement est noté dans CHANGELOG.md.
+
+qualite:
+  part_min_jour_juge: 0.75        # un jour est jugé si >= 18 h sur 24 sont mesurées
+  valeur_figee_pas_15min: 12      # >= 3 h de valeur identique non nulle au quart d'heure
+  valeur_figee_pas_heure: 6
+  facteur_echelle: 30             # pas > 30 x la médiane glissante de la série = échelle/pic impossible
+  cad_tolerance_relation: 0.08    # |mesuré / (1,163 x débit x dT) - 1| toléré à l'heure
+  cad_part_heures_hors_relation: 0.02
+  ecart_v2_net_pct: 3.0           # écart mensuel pas fin vs v2 jugé « net » (le Lisez-moi annonce 0,5 % en normal)
+
+reference:
+  jours_apprentissage_min: 49     # jours jugés avant le premier jugement (7 semaines)
+  jours_min_par_type: 5           # un type de jour n'est jugé qu'avec >= 5 jours appris
+  fenetre_recente_jours: 90       # l'effet du type de jour est recalé sur les 90 derniers jours sains
+  jours_min_recents: 8            # sinon sur les 8 derniers jours sains de ce type (vacances, par ex.)
+  reajustement_jours: 7           # le modèle est réajusté chaque semaine, sur le passé seulement
+  bande_quantile: 0.95
+  sigma_plancher_relatif: 0.03    # la dispersion ne descend pas sous 3 % de l'attendu
+
+detection:
+  cusum_k: 0.75                   # tolérance (en écarts-types) avant accumulation
+  cusum_h: 8.0                    # seuil de décision
+  persistance_jours: 7            # au moins 7 jours jugés hors tolérance dans les 10 derniers
+  persistance_fenetre: 10
+  ecart_relatif_min_pct: 4.0      # ET
+  ecart_relatif_min_pct_retour_cad: 8.0   # température de retour CAD : ~4 K sur un retour à 50 °C
+  cloture_jours: 14               # épisode résorbé après 14 jours jugés revenus dans la bande
+  acceptation_jours: 60           # baisse durable (sens non surveillé) : acceptée comme nouveau niveau après 60 jours
+  autonome:                       # moteur autonome au pas fin (passé seulement) : plus exigeant, car sa référence
+    cusum_h: 12.0                 # historique porte un biais de saison de 5 à 10 % (mesuré dans le mensuel 2021-2024)
+    persistance_jours: 10
+    persistance_fenetre: 14
+    ecart_relatif_min_pct: 10.0
+  mensuel:
+    mois_apprentissage_min: 24
+    ecart_relatif_min_pct: 10.0
+    mois_consecutifs: 2
+
+enjeu:
+  plancher_chf_par_mois: 30       # sous ce rythme constaté, l'alerte est masquée (sauf eau/sinistre et Données)
+  urgence_chf_par_mois: {critique: 1000, elevee: 300}
+  facteur_sinistre_eau: 1.5

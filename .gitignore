@@ -1,0 +1,28 @@
+# Secrets et configuration locale
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Données : jamais dans le dépôt
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+donnees/
+data/
+donnees-energiack/
+
+# Générés à l'exécution
+.cache/
+outputs/
+logs/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+PROMPT-*.md

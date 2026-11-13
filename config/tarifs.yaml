@@ -1,0 +1,17 @@
+# Prix et facteurs d'émission. Modifiables ici et dans l'interface. Chaque valeur porte sa source.
+prix:
+  electricite: {valeur: 0.27, unite: "CHF/kWh", source: "Tarif fictif SIR du jeu (Lisez-moi courbes électriques)", statut: "convention du jeu"}
+  # Seuls les prix donnés par le jeu sont utilisés. Une valeur vide (null) = « non chiffré » : aucun prix n'est inventé.
+  # Pour chiffrer, la Ville renseigne ici son propre prix et sa source.
+  gaz: {valeur: null, unite: "CHF/kWh PCS", source: "Non fourni par le jeu (le Lisez-moi demande de choisir un prix et de citer sa source)", statut: "non chiffré"}
+  cad: {valeur: null, unite: "CHF/kWh", source: "Non fourni par le jeu", statut: "non chiffré"}
+  eau: {valeur: null, unite: "CHF/m3", source: "Non fourni par le jeu", statut: "non chiffré"}
+  chaleur_pac: {valeur: 0.27, unite: "CHF/kWh él.", source: "Chiffrée en électricité de la PAC au tarif SIR", statut: "convention du jeu"}
+  pv: {valeur: null, unite: "CHF/kWh", source: "Tarif de reprise de l'injection non fourni par le jeu", statut: "non chiffré"}
+co2_direct:
+  gaz_kg_par_m3: 2.086      # Ref_CO2, convention du jeu
+  mazout_kg_par_litre: 2.65  # Ref_CO2 / OFEV
+  electricite_kg_par_kwh: 0.0
+  cad_kg_par_kwh: 0.0
+co2_cycle_de_vie:
+  electricite_g_par_kwh: 94  # mix consommateurs suisse, affiché séparément du direct

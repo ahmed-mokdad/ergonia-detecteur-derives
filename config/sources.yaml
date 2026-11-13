@@ -1,0 +1,71 @@
+# Liste blanche des fichiers ouverts (CC BY 4.0). Le connecteur ne lit RIEN d'autre.
+# Ce fichier ne contient aucune donnée : seulement des noms, tailles et empreintes SHA-256.
+# Les lots à accès restreint (Ville de Genève, Quanthome) n'y figurent pas et sont refusés par motif.
+
+motifs_interdits: ["Ville-de-Gen", "VdG", "Quanthome", "PV-15min-v1"]
+
+attributions:
+  rc_v2: "Energ-IA Transition, Energ-IACK 2026"
+  rc_elec: "Energ-IA Transition, Energ-IACK 2026, Rive-Claire courbes électriques v1"
+  rc_fluides: "Energ-IA Transition, Energ-IACK 2026, Rive-Claire fluides, PV et chauffage à distance v2"
+  rc_s04: "Energ-IA Transition, Energ-IACK 2026, Rive-Claire S04 v2"
+  meteo: "Température et rayonnement : MétéoSuisse, station Genève-Cointrin"
+licence_donnees: "CC BY 4.0"
+licence_url: "https://creativecommons.org/licenses/by/4.0/deed.fr"
+
+fichiers:
+  rc_v2:
+    chemin: "1-Donnees-Rive-Claire/EIAK-RC-Donnees-Rive-Claire-v2.xlsx"
+    lot: rc_v2
+    octets: 605963
+    sha256: e3394b56e01096a102cfdc9bb2aaa732c275deebf36e3da6210c4199d71845e0
+  elec_15min:
+    chemin: "4-Donnees-Rive-Claire-Courbes/EIAK-RC-Courbes-Elec-15min-v1.csv"
+    lot: rc_elec
+    octets: 15462341
+    sha256: c3a905e807364a4b00989f6fb8b5954136e776d3ce16508fcf2a5363c02b01f5
+  elec_classeur:
+    chemin: "4-Donnees-Rive-Claire-Courbes/EIAK-RC-Courbes-Elec-15min-v1.xlsx"
+    lot: rc_elec
+    octets: 8493054
+    sha256: 5eab1857f415cedb320ccde25e051895a9a959e6b5863ca8baddd2b3d34244d2
+  pv_15min:
+    chemin: "4-Donnees-Rive-Claire-Courbes/EIAK-RC-PV-15min-v2.csv"
+    lot: rc_fluides
+    octets: 9705900
+    sha256: 5c5bf0e9eb23aba309daeca0adbcfa6bb120b5bf1d3ed731fc1c3e7efecc033c
+  fluides_jour:
+    chemin: "4-Donnees-Rive-Claire-Courbes/EIAK-RC-Fluides-Jour-v2.csv"
+    lot: rc_fluides
+    octets: 222475
+    sha256: af9d7026b11f6f1999980e1ea904cd9719b3390a8f4ceaeaa6ceb72ce03218d5
+  cad_heure:
+    chemin: "4-Donnees-Rive-Claire-Courbes/EIAK-RC-CAD-Heure-v2.csv"
+    lot: rc_fluides
+    octets: 2098963
+    sha256: 73a024010f9a6d75d93c8a19c675482967064735d5f391b6cdc764f1fd0fb912
+  s04_sir:
+    chemin: "5-Donnees-Rive-Claire-S04/EIAK-RC-S04-Export-SIR-v2.csv"
+    lot: rc_s04
+    octets: 15198
+    sha256: 5278dd04831d2e84618ff77e931a1162a176e2c1068bcf1b8cb3589fe8b0b10c
+  s04_courbe_2022:
+    chemin: "5-Donnees-Rive-Claire-S04/EIAK-RC-S04-Courbe-Elec-Sept2022-15min-v2.csv"
+    lot: rc_s04
+    octets: 284308
+    sha256: ae8eaaec06c76245bdfad281ecde7e3f0198eefdc0c0557e3b87cc31513c1308
+  s04_onduleur:
+    chemin: "5-Donnees-Rive-Claire-S04/EIAK-RC-S04-Onduleur-PV-v2.csv"
+    lot: rc_s04
+    octets: 62952
+    sha256: 35a8dcc2e7b501481d650e6d1e3515d3cd18b59bf74f7ee2a48fbd4fdd5db2f8
+  s04_mazout:
+    chemin: "5-Donnees-Rive-Claire-S04/EIAK-RC-S04-Mazout-Livraisons-v2.csv"
+    lot: rc_s04
+    octets: 831
+    sha256: 094a01bc2b80aaa45ff9897fe88af457f1c9aecffc1401b1ebc7f005bd2c47e6
+  s04_releves:
+    chemin: "5-Donnees-Rive-Claire-S04/EIAK-RC-S04-Releves-Commune-v2.xlsx"
+    lot: rc_s04
+    octets: 14428
+    sha256: b5623245cc987e16982e7e401cc3b9d8853b528d1a1775f17771e6a9d7edefa0
