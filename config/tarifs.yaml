@@ -8,6 +8,18 @@ prix:
   eau: {valeur: null, unite: "CHF/m3", source: "Non fourni par le jeu", statut: "non chiffré"}
   chaleur_pac: {valeur: 0.27, unite: "CHF/kWh él.", source: "Chiffrée en électricité de la PAC au tarif SIR", statut: "convention du jeu"}
   pv: {valeur: null, unite: "CHF/kWh", source: "Tarif de reprise de l'injection non fourni par le jeu", statut: "non chiffré"}
+# Prix de référence sourcés, NON utilisés par le calcul (la règle « prix du jeu seulement » reste celle de l'équipe).
+# Pour chiffrer, recopier une valeur dans `prix` ci-dessus avec sa source. Lus le 13.11.2026 ; Rive-Claire est fictive :
+# ce sont des ordres de grandeur genevois réels. Année signalée quand elle n'est pas 2025.
+prix_references:
+  gaz: {bas: 0.0961, haut: 0.1031, unite: "CHF/kWh PCS TTC", annee: "2025, en vigueur au 1.10.2025 (janv.-sept. 2025 non lu)",
+        source: "SIG, Tarif gaz standard, énergie + taxe CO2 2,158 ct + TVA 8,1 %, produits hors Vitale Vert (precedents_tarifs_gaz_naturel.pdf)"}
+  cad: {bas: 0.0819, haut: 0.1161, unite: "CHF/kWh TTC", annee: "2025",
+        source: "SIG, tarifs réseaux thermiques structurants 2025, GeniTerre Transition à Vertua Plus, part variable + contribution environnementale (Vertua : 0,0977)"}
+  eau: {bas: 1.50, haut: 2.80, unite: "CHF/m3", annee: "non daté",
+        source: "ge.ch, coût de l'eau potable, hors épuration"}
+  pv: {bas: 0.0440, haut: 0.0720, unite: "CHF/kWh HT", annee: "2026 (nouvelle teneur 1.1.2026), grille 2025 non trouvée",
+       source: "SIG, C 2.8 rétributions PV, >= 100 kW avec consommation propre : énergie seule / avec garantie d'origine"}
 co2_direct:
   gaz_kg_par_m3: 2.086      # Ref_CO2, convention du jeu
   mazout_kg_par_litre: 2.65  # Ref_CO2 / OFEV

@@ -29,6 +29,18 @@ Licence : [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.fr). Rive
 
 Règle : seuls les prix donnés par le jeu sont utilisés. Pour le gaz, la chaleur, l'eau et le solaire, l'app affiche « non chiffré » en CHF ; les kWh, les m³ et le CO₂ restent calculés. Une commune renseigne son prix et sa source dans `config/tarifs.yaml` (valeur `null` = non chiffré) et les CHF apparaissent sans autre changement.
 
+### Prix de référence sourcés (non utilisés par le calcul)
+
+Lus le 13.11.2026 dans les documents primaires ; ils figurent dans `config/tarifs.yaml`, bloc `prix_references`, pour
+qu'une commune puisse les reprendre. Rive-Claire étant fictive, ce sont des ordres de grandeur genevois réels.
+
+| Vecteur | Fourchette | Source | Année |
+|---|---|---|---|
+| Gaz | 9,61 à 10,31 ct/kWh PCS TTC (énergie + taxe CO₂ 2,158 ct + TVA 8,1 %, hors Vitale Vert) | SIG, Tarif gaz standard | **au 1.10.2025** ; janvier à septembre 2025 non lu |
+| Chaleur à distance | 8,19 à 11,61 ct/kWh TTC (GeniTerre Transition à Vertua Plus ; Vertua 9,77) | SIG, tarifs réseaux thermiques structurants 2025 | 2025 |
+| Eau | 1,50 à 2,80 CHF/m³, hors épuration | ge.ch, coût de l'eau potable | **non daté** |
+| Injection PV | 4,40 (énergie seule) à 7,20 ct/kWh HT (avec garantie d'origine), ≥ 100 kW avec consommation propre | SIG, C 2.8 rétributions PV | **2026** ; grille 2025 non trouvée |
+
 ## Facteurs
 
 | Facteur | Valeur | Source |
