@@ -79,6 +79,7 @@ Détail des essais et des réglages : `CHANGELOG.md`.
 - Les causes viennent d'une base de règles écrite par l'équipe, non validée par un exploitant. Le banc d'essai est court et dit ce qu'il ne prouve pas.
 - Au pas journalier, une fuite d'eau de nuit n'est pas observable. Mazout et granulés : livraisons sans stocks, consommation mensuelle inconnue.
 - Quelques seuils ont été ajustés après avoir vu les données réelles (liste dans `CHANGELOG.md`).
+- **Dérives déjà contenues dans la référence** (le rapprochement v2 ne les voit pas) : COP de S09 (2025), ventilation de S26 (+50 % depuis février 2024, sous-compteur ; une partie peut être un recâblage, le reste du site baissant d'environ 3 000 kWh/an), gaz de S22 (depuis le printemps 2023). Baisse du gaz de S38 (−38 % depuis 2023-24) sans événement déclaré, à expliquer.
 
 ## Attributions
 
