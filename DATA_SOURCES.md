@@ -37,6 +37,6 @@ Règle : seuls les prix donnés par le jeu sont utilisés. Pour le gaz, la chale
 | CO₂ direct, gaz | 2,086 kg/m³ | feuille Ref_CO2, convention du jeu |
 | CO₂ direct, mazout | 2,65 kg/l | feuille Ref_CO2 (non utilisé : aucune alerte mazout) |
 | CO₂ direct, électricité et chaleur à distance | 0 | convention du jeu |
-| CO₂ cycle de vie, électricité | 94 g/kWh | valeur citée dans le cahier des charges (mix consommateurs suisse), calculée à part dans `constate.kg_co2_cycle_de_vie`, jamais additionnée au direct |
+| CO₂ cycle de vie, électricité | 125 g CO₂-éq/kWh | KBOB/ecobau 2022 v9.0, feuille Énergie, ligne 45.020 « CH-Verbrauchermix / Mix consommateur CH » (même valeur citée par le canton de Vaud depuis la v6.2) ; calculée à part dans `constate.kg_co2_cycle_de_vie`, jamais additionnée au direct. L'ancienne valeur (94 g/kWh, « cahier des charges ») n'a été retrouvée ni dans KBOB ni dans les documents du hackathon. Facteur moyen national, non daté 2025 |
 | Degrés-jours | 20 − T si T < 12 °C, sinon 0 | convention SIA 381/3 du Dictionnaire, recalculée au jour depuis la température du calendrier |
 | Chauffage à distance | énergie ≈ 1,163 × débit × (aller − retour) | Lisez-moi fluides |
