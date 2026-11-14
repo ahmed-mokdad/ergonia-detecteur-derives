@@ -14,4 +14,7 @@ co2_direct:
   electricite_kg_par_kwh: 0.0
   cad_kg_par_kwh: 0.0
 co2_cycle_de_vie:
-  electricite_g_par_kwh: 94  # mix consommateurs suisse, affiché séparément du direct
+  # KBOB/ecobau 2022, version 9.0 (Ökobilanzdaten im Baubereich, kbob.admin.ch), feuille Énergie, ligne 45.020
+  # « CH-Verbrauchermix / Mix consommateur CH » : 0,125 kg CO2-éq/kWh. Affiché séparément du direct.
+  # L'ancienne valeur (94 g/kWh) n'apparaît sur aucune ligne électricité de KBOB.
+  electricite_g_par_kwh: 125
